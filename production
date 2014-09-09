@@ -1,0 +1,9 @@
+# file: production
+
+[atlanta-webservers]
+www-atl-1.example.com
+www-atl-2.example.com
+
+[boston-webservers]
+www-bos-1.example.com
+www-bos-2.example.com

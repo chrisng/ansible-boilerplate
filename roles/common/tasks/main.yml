@@ -1,0 +1,50 @@
+---
+# file: roles/common/tasks/main.yml
+
+- name: be sure ntp is installed
+  yum: pkg=ntp state=installed
+  tags: ntp
+
+- name: be sure ntp is configured
+  template: src=ntp.conf.j2 dest=/etc/ntp.conf
+  notify:
+    - restart ntpd
+  tags: ntp
+
+- name: be sure ntpd is running and enabled
+  service: name=ntpd state=running enabled=yes
+  tags: ntp
+
+- name: Install common packages
+  sudo: yes
+  action: apt pkg={{ item }} state=installed
+  with_items:
+    - git-core
+    - curl
+    - zlib1g-dev
+    - build-essential
+    - libssl-dev
+    - libreadline-dev
+    - libyaml-dev
+    - libxml2-dev
+    - libxslt1-dev
+    - libcurl4-openssl-dev
+    - python-software-properties
+    - vim
+    - zlib1g-dev
+    - iftop
+    - htop
+    - iotop
+    - fail2ban
+    - iperf
+
+- name : Create deployer group
+  group: name=deployer gid=450 state=present
+
+- name: setup deployer user
+  user: name=deployer uid=450 group=deployer createhome=yes shell=/bin/bash state=present
+  register: deployuser
+
+- name: Lock the deploy user account
+  shell: passwd -l deployer
+  when: deployuser.changed

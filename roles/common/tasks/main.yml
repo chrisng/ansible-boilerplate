@@ -19,24 +19,25 @@
   sudo: yes
   action: apt pkg={{ item }} state=installed
   with_items:
-    - git-core
-    - curl
-    - zlib1g-dev
     - build-essential
-    - libssl-dev
+    - curl
+    - fail2ban
+    - git-core
+    - htop
+    - iftop
+    - iotop
+    - iperf
+    - libcurl4-openssl-dev
     - libreadline-dev
-    - libyaml-dev
+    - libssl-dev
     - libxml2-dev
     - libxslt1-dev
-    - libcurl4-openssl-dev
+    - libyaml-dev
     - python-software-properties
+    - smartmontools
     - vim
     - zlib1g-dev
-    - iftop
-    - htop
-    - iotop
-    - fail2ban
-    - iperf
+    - zlib1g-dev
 
 - name : Create deployer group
   group: name=deployer gid=450 state=present
